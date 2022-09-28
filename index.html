@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Demonstraçao de autocomplete de endereço através do CEP</title>
+    </head>
+    <body>
+        <form action="#" onsubmit="return false" style="display: flex; flex-wrap: wrap; font-family: Futura Light;">
+
+            <input style="font-family: Futura Light; height: 30px; width: 30%; border: none; background: #fff; margin-right: 20px;" type="text" id="cep" maxlength="9" placeholder="00000-000" autofocus><br><br>
+
+            <input style="font-family: Futura Light; margin-right: 10px; height: 30px; width: 60%; border: none; background: #fff;" type="text" id="endereco" placeholder="Rua"><br><br>
+
+            <input style=" font-family: Futura Light; margin-right: 10px; height: 30px; width: 30%; border: none; background: #fff;"  type="text" id="bairro"placeholder="Bairro"><br>
+
+            <input style="font-family: Futura Light; margin-right: 10px; height: 30px; width: 30%; border: none; background: #fff;" type="text" id="cidade"placeholder="Cidade"><br>
+
+            <input style="font-family: Futura Light; margin-right: 10px; height: 30px; width: 10%; border: none; background: #fff;"  type="text" id="uf"placeholder="UF"><br>
+        </form>
+        <script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+        <script>
+         
+            $("#cep").blur(function(){
+                var cep = this.value.replace(/[^0-9]/, "");
+                if(cep.length != 8){
+                    return false;
+                }
+                var url = "https://viacep.com.br/ws/"+cep+"/json/";
+                $.getJSON(url, function(dadosRetorno){
+                    try{
+                        $("#endereco").val(dadosRetorno.logradouro);
+                        $("#bairro").val(dadosRetorno.bairro);
+                        $("#cidade").val(dadosRetorno.localidade);
+                        $("#uf").val(dadosRetorno.uf);
+                    }catch(ex){}
+                });
+            });
+        </script>
+    </body>
+</html>
